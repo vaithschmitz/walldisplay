@@ -211,7 +211,9 @@
         flapCharset: {
             // Index 0 is the default character (space)
             // If an unknown character is observed, the last char from the list will be used
-            chars: " ABCDEFGHIJKLMNOPQRSTUVWXYZ:+'‘?0123456789’“!”cs(%)[#]{@}/&\\<-_÷×=>$€;,.~*rbgyow",
+            chars: " ABCDEFGHIJKLMNOPQRSTUVWXYZ:+'‘?0123456789’“!”cs(%)[#]{@}/&\\<-_÷×=>$€;,.",
+            // with colors at end
+            // chars: " ABCDEFGHIJKLMNOPQRSTUVWXYZ:+'‘?0123456789’“!”cs(%)[#]{@}/&\\<-_÷×=>$€;,.~*rbgyow",
             // sorted by most common in English lang + project needs
             // chars: "ETAOINSHRDLCUMXZWFGY:0123456789PBVKJQ'+?’“!”(%)[#]‘{@}/&\\<-_÷×=>$€;,.~*rbgyow",
             options: {

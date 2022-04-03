@@ -3,6 +3,8 @@
     "version": "0.0.1",
     "description": "a dynamic content split flap display",
     "dependencies": {
-        "express": "^4.17.3"
+        "express": "^4.17.3",
+        "node-cron": "^3.0.0",
+        "socket.io": "^4.4.1"
     }
 }

@@ -1,115 +1,83 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link href="/public/css/fallblatt.css" type="text/css" rel="stylesheet">
-        <script src="/public/jquery-3.5.1.min.js"></script>
-        <script src="/public/fallblatt.js"></script>
-        <style type="text/css">
-            body, html {
-                padding: 0;
-                margin: 0;
-                background-color: #341616;
-                overflow: hidden;
-                width: 100%;
-                height: 100%;
-            }
-        </style>
-    </head>
-    <body>
-        <div style="width:100%;height:100%">
-            <div id="splitFlapCanvas"></div>
-        </div>
-        
-        <script type="text/javascript">
-            // set up canvas
-            var canvas = $("#splitFlapCanvas").fallBlatt({
-                flapSpacingExtraWidth: 10,
-                flapSpacingExtraHeight: 10,
-                flapScale: 0.5,
-                flapCharset: 'g'
-            });
-            // display indiv char by x index
-            function displayChar(idx, char){
-                $("#splitFlapCanvas").fallBlatt("display", {
-                        pos: [idx,1], 
-                        content: char
-                    })
-            }
-            
-            let content = [
-            "WARM s UP:",
-"1 X (100 FS IN Z2 + 15 SECS REST)",
-"1 X (100 DRILL IN Z2 + 15 SECS REST)",
-"1 X (100 PULL IN Z2 + 15 SECS REST)",
-"",
-"MAIN c SET:",
-"1 X (200 PULL IN Z2 + 25 SECS REST),",
-"3 X (100 FS IN Z3 + 25 SEC RESTS),",
-"3 X (100 PULL IN Z2 + 20 SEC RESTS),",
-"2 X (100 FS IN Z3 + 25 SEC RESTS).",
-"",
-"WARM s DOWN:",
-"1 X (50 CHOICE IN Z2 + 50 FS IN Z2)",
-            ]
-            content2  = [
-            "WARM UP:",
-"10 MINS IN Z2",
-"",
-"MAIN SET:",
-"6 MINS IN Z4  2 MINS RECOVERY IN Z12",
-"3 MINS IN LOW Z5  2 MIN RECOVERIES IN Z1",
-"",
-"WARM DOWN:",
-"5 MINS EASY JOG IN Z2"
-            ]
-            // content.map(el => {return el.toUpperCase()})
-                  
-            function printLine(idx, content){
-                for(var i=0; i < content.length; i++){
-                    // skip flap if whitespace
-                    if (content[i] == " "){
-                        continue
-                    }
-                    $("#splitFlapCanvas").fallBlatt("display", {
-                        pos: [i,idx], 
-                        content: content[i],
+
+<head>
+    <meta charset="utf-8">
+    <link href="/public/css/fallblatt.css" type="text/css" rel="stylesheet">
+    <script src="/public/jquery-3.5.1.min.js"></script>
+    <script src="/public/fallblatt.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <style type="text/css">
+        body,
+        html {
+            padding: 0;
+            margin: 0;
+            background-color: #2b2020;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="width:100%;height:100%">
+        <div id="splitFlapCanvas"></div>
+    </div>
+
+    <script type="text/javascript">
+        const socket = io('http://localhost:3000/');
+        let currentPageContent
+
+        // set up canvas
+        var canvas = $("#splitFlapCanvas").fallBlatt({
+            flapSpacingExtraWidth: 10,
+            flapSpacingExtraHeight: 10,
+            flapScale: 0.5,
+            flapCharset: 'g'
+        });
+        // display indiv char by x index
+        function displayChar(idx, char) {
+            $("#splitFlapCanvas").fallBlatt("display", {
+                pos: [idx, 1],
+                content: char
+            })
+        }
+
+        function printLine(idx, content) {
+            for (var i = 0; i < content.length; i++) {
+                // skip flap if whitespace
+                if (content[i] == " ") {
+                    for(let i = 0; i< canvas.flapsX -1 ; i++){
+                        $("#splitFlapCanvas").fallBlatt("display", {
+                        pos: [i, idx],
+                        content: " ",
                         })
+                    }
+                }
+                $("#splitFlapCanvas").fallBlatt("display", {
+                    pos: [i, idx],
+                    content: content[i],
+                })
 
-                    }
-                    }
-                
-                         
-            // use this for turn by turn character display
-            // function printLine(idx, content){
-            //     var dfd = $.Deferred().resolve();
-            //     for(var i=0; i < content.length; i++){
-            //         // skip flap if whitespace
-            //         if (content[i] == " "){
-            //             continue
-            //         }
-            //         else{
-            //             // render content onto canvas
-            //             (function(i){
-            //             dfd = dfd.then(function(){
-            //                 return $("#splitFlapCanvas").fallBlatt("display", {
-            //                     pos: [i,idx], 
-            //                     content: content[i],
-            //                     })
-            //             }).then(function(results){
-            //                 console.log("Completed "+results);
-            //                 console.log("Completed "+content[i]);
-            //             });
-            //         })(i);
-            //         }
-            //     }
-            // }     
-            let choice = [content, content2]
-            choice = choice[Math.floor(Math.random()*2)]
-            for (let i = 0; i< choice.length; i++){
-                printLine(i, choice[i])
             }
+        }
 
-        </script>
-    </body>
+        // fill rows with "" when not in current
+        function cleanEmptyRows(current) {
+            const empty = Array(canvas.flapsY - current.length).fill(" ")
+            current.push(...empty)
+            return current
+        }
+
+        socket.on('ping', (msg) => {
+            msg = cleanEmptyRows(msg)
+            console.log(msg)
+            for (let i = 0; i < msg.length; i++) {
+                printLine(i, msg[i])
+            }
+        })
+    </script>
+</body>
+
 </html>
