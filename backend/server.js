@@ -1,13 +1,11 @@
-const express = require('express');
+import fetch from 'node-fetch';
+import express from 'express';
 const app = express();
-const http = require('http');
+import http from 'http'
 const server = http.createServer(app);
-const {
-  Server
-} = require("socket.io");
+import {Server} from 'socket.io'
 const io = new Server(server);
-const path = require('path');
-const cron = require('node-cron')
+import cron from 'node-cron'
 
 // add public folder to serve static files
 app.use("/public", express.static('public/'));
@@ -22,8 +20,6 @@ app.get('/', (req, res) => {
 server.listen(3000, () => {
   console.log('listening on *:3000');
 });
-
-
 
 const rand = [
   "DEVELOPMENT",
@@ -52,8 +48,16 @@ function choice() {
   }
   return message
 }
-console.log(choice)
-// function sendData()
-cron.schedule('*/10 * * * * *', () => {
-  io.emit('ping', choice())
-})
+
+async function getWeather(){
+  const res = await fetch("https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=51.534531&lon=0.025150&cnt=12&appid=6fb1f788f61e789641a1c8fc103e4a9b")
+  const parsed = await res.json()
+  console.log(parsed)
+}
+getWeather()
+
+// send data to client on schedule
+// cron.schedule('*/10 * * * * *', () => {
+//   io.emit('ping', choice())
+// })
+
