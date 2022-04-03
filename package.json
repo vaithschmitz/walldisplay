@@ -1,0 +1,8 @@
+{
+    "name": "split_flap_walldisplay",
+    "version": "0.0.1",
+    "description": "a dynamic content split flap display",
+    "dependencies": {
+        "express": "^4.17.3"
+    }
+}
