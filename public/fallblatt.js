@@ -211,7 +211,7 @@
         flapCharset: {
             // Index 0 is the default character (space)
             // If an unknown character is observed, the last char from the list will be used
-            chars: " ABCDEFGHIJKLMNOPQRSTUVWXYZ:+'‘?0123456789’“!”cs(%)[#]{@}/&\\<-_÷×=>$€;,.",
+            chars: " ABCDEFGHIJKLMNOPQRSTUVWXYZ:+'‘?0123456789’“!”abcdefghi(%)[#]{@}/&\\<-_÷×=>$€;,.",
             // with colors at end
             // chars: " ABCDEFGHIJKLMNOPQRSTUVWXYZ:+'‘?0123456789’“!”cs(%)[#]{@}/&\\<-_÷×=>$€;,.~*rbgyow",
             // sorted by most common in English lang + project needs
@@ -243,8 +243,15 @@
                 "y": ["splitFlapCharColourBase", "splitFlapCharColourYellow"],
                 "o": ["splitFlapCharColourBase", "splitFlapCharColourOrange"],
                 "w": ["splitFlapCharColourBase", "splitFlapCharColourWhite"],
-                "c": ["splitFlapCharRain"],
-                "s": ["splitFlapCharSun"]
+                "a": ["splitFlapCharBrokenCloud"],
+                "b": ["splitFlapCharCloud"],
+                "c": ["splitFlapCharFog"],
+                "d": ["splitFlapCharRainCloud"],
+                "e": ["splitFlapCharSnow"],
+                "f": ["splitFlapCharSun"],
+                "g": ["splitFlapCharSunCloud"],
+                "h": ["splitFlapCharSunRain"],
+                "i": ["splitFlapCharThunderstorm"],
             }
         },
         flapCss: {

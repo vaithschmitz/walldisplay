@@ -47,14 +47,14 @@
         function printLine(idx, content) {
             for (var i = 0; i < content.length; i++) {
                 // skip flap if whitespace
-                if (content[i] == " ") {
-                    for(let i = 0; i< canvas.flapsX -1 ; i++){
-                        $("#splitFlapCanvas").fallBlatt("display", {
-                        pos: [i, idx],
-                        content: " ",
-                        })
-                    }
-                }
+                // if (content[i] == " ") {
+                //     for(let i = 0; i< canvas.flapsX -1 ; i++){
+                //         $("#splitFlapCanvas").fallBlatt("display", {
+                //         pos: [i, idx],
+                //         content: " ",
+                //         })
+                //     }
+                // }
                 $("#splitFlapCanvas").fallBlatt("display", {
                     pos: [i, idx],
                     content: content[i],
@@ -71,7 +71,8 @@
         }
 
         socket.on('ping', (msg) => {
-            msg = cleanEmptyRows(msg)
+            console.log(msg)
+            // msg = cleanEmptyRows(msg)
             console.log(msg)
             for (let i = 0; i < msg.length; i++) {
                 printLine(i, msg[i])

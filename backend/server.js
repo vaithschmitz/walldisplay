@@ -21,43 +21,47 @@ server.listen(3000, () => {
   console.log('listening on *:3000');
 });
 
-const rand = [
-  "DEVELOPMENT",
-  "DISTRICT",
-  "DISTRIBUTOR",
-  "PUNCH",
-  "DISCIPLINE",
-  "PARALLEL",
-  "BATHROOM",
-  "KORAN",
-  "CONTROL",
-  "PLUCK",
-  "CELLAR",
-  "BEAR",
-  "BORDER",
-  "ANGLE",
-  "SPECIMEN",
-  "", "", "", ""
-]
-
-function choice() {
-  let options = Math.floor(Math.random() * 15)
-  message = []
-  for (let i = 0; i < options; i++) {
-    message.push(rand[Math.floor(Math.random() * rand.length)])
-  }
-  return message
-}
-
 async function getWeather(){
-  const res = await fetch("https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=51.534531&lon=0.025150&cnt=12&appid=6fb1f788f61e789641a1c8fc103e4a9b")
+  let weatherNextTwelveHours = []
+  const res = await fetch("https://api.openweathermap.org/data/2.5/onecall?lat=51.534531&lon=0.025150&units=metric&exclude=minutely,alerts,current,daily&appid=6fb1f788f61e789641a1c8fc103e4a9b")
   const parsed = await res.json()
-  console.log(parsed)
+  for(let i = 0; i< 12; i++){
+    let it = parsed.hourly[i]
+    let date = new Date(it.dt * 1000)
+    let hours = date.getUTCHours()
+    let thisHourWeather = ""
+    //map icons to weather data
+    let weatherIcons = {
+      '01d': 'f',
+      '01n': 'f',
+      '02d': 'g',
+      '02n': 'g',
+      '03d': 'b',
+      '03n': 'b',
+      '04d': 'a',
+      '04n': 'a',
+      '09d': 'd',
+      '09n': 'd',
+      '10d': 'h',
+      '10n': 'h',
+      '11d': 'i',
+      '11n': 'i',
+      '13d': 'e',
+      '13n': 'e',
+      '50d': 'c',
+      '50n': 'c',
+    }
+    //build weatherString
+    thisHourWeather += hours + " " + weatherIcons[it.weather[0].icon] + " "+ (Math.round(it.temp) + " " + it.weather[0].description.toUpperCase())
+    weatherNextTwelveHours.push(thisHourWeather)
+  }
+  console.log(weatherNextTwelveHours)
+  return weatherNextTwelveHours
 }
-getWeather()
 
 // send data to client on schedule
-// cron.schedule('*/10 * * * * *', () => {
-//   io.emit('ping', choice())
-// })
+cron.schedule('*/30 * * * * *', async () => {
+  let weather = await getWeather()
+  await io.emit('ping', weather)
+})
 

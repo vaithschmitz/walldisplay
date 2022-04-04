@@ -78,9 +78,32 @@
 .splitFlapCharColourWhite {
     background-color: whitesmoke;
 }
-.splitFlapCharRain::before {
-    content: url('../media/raincloud.svg'); 
+
+
+.splitFlapCharBrokenCloud::before {
+    content: url('../media/a_brokencloud.svg'); 
+}
+.splitFlapCharCloud::before {
+    content: url('../media/b_cloud.svg'); 
+} 
+.splitFlapCharFog::before {
+    content: url('../media/c_fog.svg'); 
+} 
+.splitFlapCharRainCloud::before {
+    content: url('../media/d_raincloud.svg'); 
+} 
+.splitFlapCharSnow::before {
+    content: url('../media/e_snow.svg'); 
 }
 .splitFlapCharSun::before {
-    content: url('../media/sun.svg'); 
+    content: url('../media/f_sun.svg'); 
+}
+.splitFlapCharSunCloud::before {
+    content: url('../media/g_suncloud.svg'); 
+}
+.splitFlapCharSunRain::before {
+    content: url('../media/h_sunrain.svg'); 
+}
+.splitFlapCharThunderstorm::before {
+    content: url('../media/i_thunderstorm.svg'); 
 }
